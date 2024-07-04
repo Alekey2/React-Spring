@@ -1,11 +1,14 @@
 package br.com.sneakstyle.dto;
 
-public record SapatoDTO(
-        String marca,
-        String modelo,
+import jakarta.validation.constraints.NotNull;
+
+public record SapatoAtualizaDTO(
+        @NotNull
+        Long id,
         Integer tamanho,
         String cor,
         Double preco,
         String foto
 ) {
+
 }

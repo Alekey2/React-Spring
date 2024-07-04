@@ -1,9 +1,20 @@
 package br.com.sneakstyle.model;
 
+import br.com.sneakstyle.dto.SapatoAtualizaDTO;
+import br.com.sneakstyle.dto.SapatoCadastroDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "Sapato")
 @Table(name="sapatos")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
+
 public class Sapato {
 
     @Id
@@ -15,9 +26,8 @@ public class Sapato {
     private String cor;
     private Double preco;
     private String foto;
+    private  Boolean ativo;
 
-    public Sapato() {
-    }
 
     public Sapato(Long id, String marca, String modelo, Integer tamanho, String cor, Double preco, String foto) {
         this.id = id;
@@ -29,61 +39,37 @@ public class Sapato {
         this.foto = foto;
     }
 
-
-
-    public Long getId() {
-        return id;
+    public Sapato(SapatoCadastroDTO dados) {
+        this.marca = dados.marca();
+        this.modelo = dados.modelo();
+        this.tamanho = dados.tamanho();
+        this.cor = dados.cor();
+        this.preco = dados.preco();
+        this.foto = dados.foto();
+        this.ativo = true;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+
+    public void atualizarInformacoes(SapatoAtualizaDTO dados) {
+        if(dados.tamanho() != null){
+            this.tamanho = dados.tamanho();
+        }
+
+        if(dados.cor() != null){
+            this.cor = dados.cor();
+        }
+
+        if(dados.preco() != null){
+            this.preco = dados.preco();
+        }
+
+        if(dados.foto() != null){
+            this.foto = dados.foto();
+        }
+
     }
 
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    public Integer getTamanho() {
-        return tamanho;
-    }
-
-    public void setTamanho(Integer tamanho) {
-        this.tamanho = tamanho;
-    }
-
-    public Double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
-
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void deletar(){
+        this.ativo = false;
     }
 }
